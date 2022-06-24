@@ -12,4 +12,11 @@ make sure to not edit roster filename
 
 - find linking IDs in csv files
 - make utility to download/save all relevant files
-- parse through files using linking IDs 
+- parse through files using linking IDs
+
+## Z Practice
+make everything modular
+- implement menu for different actions
+  - resync all files
+  - get strategems for "filename"
+  - sync & get stratagems
