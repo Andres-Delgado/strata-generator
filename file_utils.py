@@ -3,6 +3,7 @@ from xml.etree import ElementTree
 import pathlib
 import requests
 import zipfile
+import pandas
 
 class FileUtils:
   @classmethod
@@ -36,9 +37,9 @@ class FileUtils:
     with open(FileUtils.get_data_path().joinpath(filename), 'wb') as outfile:
       outfile.write(response.content)
 
-  ############
-  ############
-  ############
+  ################
+  # sync methods #
+  ################
 
   @classmethod
   def sync_stratagems_csv(cls):
@@ -74,3 +75,18 @@ class FileUtils:
     cls.sync_factions_csv()
     cls.sync_datasheets_csv()
     cls.sync_datasheets_stratagems_csv()
+
+  ###################
+  # load csv methods #
+  ###################
+
+  @classmethod
+  def load_datasheets_csv(cls) -> pandas.DataFrame:
+    filePath = cls.get_data_path().joinpath('datasheets.csv')
+
+    dataFrame: pandas.DataFrame = pandas.read_csv(filePath, delimiter='|')
+
+    # with open(data_path.joinpath('datasheets.csv'), mode='r', encoding='utf-8-sig') as file:
+    #   csvReader = csv.reader(file, delimiter='|')
+
+    return dataFrame
