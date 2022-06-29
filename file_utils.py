@@ -66,11 +66,6 @@ class FileUtils:
     # allCsvUrl = 'https://wahapedia.ru/wh40k9ed/Export%20Data%20Specs.xlsx'
     # keyswordsUrl = 'http://wahapedia.ru/wh40k9ed/Datasheets_keywords.csv'
 
-    # from roster, get name for models/units/factions
-    # find factionIDs from factions.csv with faction names
-    # find datasheetIDs from datasheets.csv with model/unit names
-    # find keywords from datasheets_keywords.csv with datasheetIDs
-
     cls.sync_stratagems_csv()
     cls.sync_factions_csv()
     cls.sync_datasheets_csv()
@@ -81,12 +76,7 @@ class FileUtils:
   ###################
 
   @classmethod
-  def load_datasheets_csv(cls) -> pandas.DataFrame:
-    filePath = cls.get_data_path().joinpath('datasheets.csv')
-
+  def load_csv_to_dataframe(cls, filename: str) -> pandas.DataFrame:
+    filePath = cls.get_data_path().joinpath(filename)
     dataFrame: pandas.DataFrame = pandas.read_csv(filePath, delimiter='|')
-
-    # with open(data_path.joinpath('datasheets.csv'), mode='r', encoding='utf-8-sig') as file:
-    #   csvReader = csv.reader(file, delimiter='|')
-
     return dataFrame

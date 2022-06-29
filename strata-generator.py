@@ -9,14 +9,14 @@ def get_keywords(fileTree: ElementTree) -> dict:
     'keywords': []
   }
 
-  # TODO: FIURE OUT HOW TO EXTRACT FACTION
+  # TODO: FIGURE OUT HOW TO EXTRACT FACTION
 
   for selection in fileTree.iter(f'{rosterSchema}selection'):
     if selection.get('type') == 'model' or selection.get('type') == 'unit':
       keyword_dict['names'].append(selection.get('name'))
 
-      for category in selection.iter(f'{rosterSchema}categories'):
-        keyword_dict['keywords'].extend([category.get('name') for category in category])
+      for category in selection.iter(f'{rosterSchema}category'):
+        keyword_dict['keywords'].append(category.get('name'))
 
   keyword_dict = {key: list(set(value)) for key, value in keyword_dict.items()}
   return keyword_dict
@@ -28,9 +28,22 @@ if __name__ == '__main__':
   # filename = 'Test_Custodes'
 
   fileTree = FileUtils.extract_roster(filename)
-  keywords_dict = get_keywords(fileTree)
+  keyword_dict = get_keywords(fileTree)
 
   # FileUtils.sync_csv_files()
 
-  data = FileUtils.load_datasheets_csv()
-  print(data.columns)
+  ##################################
+  # TODO: STRING DISTANCE CHECKING #
+  #  to go get faction/unit names  #
+  ##################################
+
+  data = FileUtils.load_csv_to_dataframe('datasheets.csv')
+  datasheetRows = data.loc[data['name'].isin(keyword_dict['names'])]
+  datasheetIds = list(set(datasheetRows['id'].array))
+
+  dataStratagems = FileUtils.load_csv_to_dataframe('datasheets_stratagems.csv')
+  dataStratagemRows = dataStratagems.loc[dataStratagems['datasheet_id'].isin(datasheetIds)]
+  stratagemIds = list(set(dataStratagemRows['stratagem_id'].array))
+
+  stratagems = FileUtils.load_csv_to_dataframe('stratagems.csv')
+  stratagemRows = stratagems.loc[stratagems['id'].isin(stratagemIds)]
