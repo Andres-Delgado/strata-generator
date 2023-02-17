@@ -1,6 +1,7 @@
 from xml.etree.ElementTree import ElementTree
 
 from file_utils import FileUtils
+from exporter import Exporter
 
 def get_keywords(fileTree: ElementTree) -> dict:
   rosterSchema = '{http://www.battlescribe.net/schema/rosterSchema}'
@@ -24,8 +25,7 @@ def get_keywords(fileTree: ElementTree) -> dict:
 if __name__ == '__main__':
   # get filename from arguments
 
-  filename = '2k Undivided'
-  # filename = 'Test_Custodes'
+  filename = 'Tau_2k'
 
   fileTree = FileUtils.extract_roster(filename)
   keyword_dict = get_keywords(fileTree)
@@ -40,10 +40,15 @@ if __name__ == '__main__':
   data = FileUtils.load_csv_to_dataframe('datasheets.csv')
   datasheetRows = data.loc[data['name'].isin(keyword_dict['names'])]
   datasheetIds = list(set(datasheetRows['id'].array))
+  print('datasheet ids: ', datasheetIds)
 
   dataStratagems = FileUtils.load_csv_to_dataframe('datasheets_stratagems.csv')
   dataStratagemRows = dataStratagems.loc[dataStratagems['datasheet_id'].isin(datasheetIds)]
   stratagemIds = list(set(dataStratagemRows['stratagem_id'].array))
+  print('stratagem ids: ', stratagemIds)
 
   stratagems = FileUtils.load_csv_to_dataframe('stratagems.csv')
   stratagemRows = stratagems.loc[stratagems['id'].isin(stratagemIds)]
+  print(stratagemRows.columns.tolist())
+
+  Exporter.to_txt(stratagemRows)
