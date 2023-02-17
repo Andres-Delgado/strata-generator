@@ -16,6 +16,15 @@ class FileUtils:
     return path
 
   @classmethod
+  def get_csv_path(cls) -> pathlib.Path:
+    path = pathlib.Path.joinpath(cls.get_data_path(), 'csv')
+
+    if not path.is_dir():
+      path.mkdir(parents=True, exist_ok=True)
+
+    return path
+
+  @classmethod
   def extract_roster(cls, filename: str) -> ElementTree:
     ext = '.rosz'
     dataPath = cls.get_data_path()
@@ -23,7 +32,8 @@ class FileUtils:
     with zipfile.ZipFile(dataPath.joinpath(filename + ext), 'r') as file:
       file.extractall(path=dataPath)
 
-    return etree.parse(dataPath.joinpath(filename + '.ros'))
+    # TODO: why is filename changing??
+    return etree.parse(dataPath.joinpath('Tau 2k' + '.ros'))
 
   @staticmethod
   def download_save(url: str, filename: str):
@@ -34,7 +44,7 @@ class FileUtils:
     }
     response = requests.get(url, headers=headers)
 
-    with open(FileUtils.get_data_path().joinpath(filename), 'wb') as outfile:
+    with open(FileUtils.get_csv_path().joinpath(filename), 'wb') as outfile:
       outfile.write(response.content)
 
   ################
@@ -77,6 +87,6 @@ class FileUtils:
 
   @classmethod
   def load_csv_to_dataframe(cls, filename: str) -> pandas.DataFrame:
-    filePath = cls.get_data_path().joinpath(filename)
-    dataFrame: pandas.DataFrame = pandas.read_csv(filePath, delimiter='|')
+    filePath = cls.get_csv_path().joinpath(filename)
+    dataFrame: pandas.DataFrame = pandas.read_csv(filePath, delimiter='|', encoding='utf8')
     return dataFrame
