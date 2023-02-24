@@ -25,7 +25,7 @@ def get_keywords(fileTree: ElementTree) -> dict:
 if __name__ == '__main__':
   # get filename from arguments
 
-  filename = 'Tau_2k'
+  filename = 'New_Roster'
 
   fileTree = FileUtils.extract_roster(filename)
   keyword_dict = get_keywords(fileTree)
@@ -51,4 +51,4 @@ if __name__ == '__main__':
   stratagemRows = stratagems.loc[stratagems['id'].isin(stratagemIds)]
   print(stratagemRows.columns.tolist())
 
-  Exporter.to_txt(stratagemRows)
+  Exporter.to_json(stratagemRows)

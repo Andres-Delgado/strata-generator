@@ -33,7 +33,7 @@ class FileUtils:
       file.extractall(path=dataPath)
 
     # TODO: why is filename changing??
-    return etree.parse(dataPath.joinpath('Tau 2k' + '.ros'))
+    return etree.parse(dataPath.joinpath('New Roster' + '.ros'))
 
   @staticmethod
   def download_save(url: str, filename: str):

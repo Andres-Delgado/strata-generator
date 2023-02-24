@@ -5,6 +5,15 @@ from file_utils import FileUtils
 
 class Exporter:
   @classmethod
+  def to_json(cls, data: pandas.DataFrame):
+    dataPath = FileUtils.get_data_path()
+    data['description'] = data.apply(lambda row: cls.remove_tags(row['description']), axis=1)
+    dataJson = data.to_json(orient='index', indent=2, force_ascii=False)
+    f = open(dataPath.joinpath('roster.json'), 'w')
+    f.write(dataJson)
+    f.close()
+
+  @classmethod
   def to_txt(cls, data: pandas.DataFrame):
     dataPath = FileUtils.get_data_path()
 
