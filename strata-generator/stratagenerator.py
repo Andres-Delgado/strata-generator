@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import ElementTree
 
-from file_utils import FileUtils
+from fileutils import FileUtils
 from exporter import Exporter
 
 class StrataGenerator:
