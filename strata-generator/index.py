@@ -1,7 +1,7 @@
 from flask import Flask, request
 
 from stratagenerator import StrataGenerator
-from file_utils import FileUtils
+from fileutils import FileUtils
 
 app: Flask = Flask(__name__)
 
