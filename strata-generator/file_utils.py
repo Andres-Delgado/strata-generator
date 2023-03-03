@@ -1,5 +1,6 @@
 from lxml import etree
 from xml.etree import ElementTree
+from typing import List
 import pathlib
 import requests
 import zipfile
@@ -32,8 +33,14 @@ class FileUtils:
     with zipfile.ZipFile(dataPath.joinpath(filename + ext), 'r') as file:
       file.extractall(path=dataPath)
 
+    # TODO: extract into a roster folder
     # TODO: why is filename changing??
     return etree.parse(dataPath.joinpath('New Roster' + '.ros'))
+
+  @classmethod
+  def list_roster_files(cls) -> List[str]:
+    dataPath = cls.get_data_path()
+    return [path.stem for path in dataPath.iterdir() if path.is_file() and path.suffix == '.json']
 
   @staticmethod
   def download_save(url: str, filename: str):
