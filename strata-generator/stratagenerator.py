@@ -25,14 +25,11 @@ class StrataGenerator:
     return keyword_dict
 
   @classmethod
-  def process(cls) -> str:
-    filename = 'New_Roster'
-
+  def process(cls, filename: str, sync: bool) -> str:
     fileTree = FileUtils.extract_roster(filename)
     keyword_dict = cls.get_keywords(fileTree)
 
-    # TODO: sync flag
-    # FileUtils.sync_csv_files()
+    if sync: FileUtils.sync_csv_files()
 
     ##################################
     # TODO: STRING DISTANCE CHECKING #

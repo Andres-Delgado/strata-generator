@@ -1,0 +1,17 @@
+@host = http://localhost:5000
+
+##############
+# list files #
+##############
+GET {{host}}/ HTTP/1.1
+
+###########
+# Process #
+###########
+POST {{host}}/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "sync": false,
+  "filename": "New_Roster"
+}
