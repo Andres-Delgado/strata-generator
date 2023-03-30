@@ -13,5 +13,6 @@ def list_files():
 @app.route('/', methods=['POST'])
 def process_roster_file():
   # curl -X POST -H "Content-Type: application/json" -d '{"sync": true, "filename": "Tzeentch 2k"}' localhost:5000
-  StrataGenerator.process()
-  return request.get_json()
+  body: dict = request.get_json()
+  StrataGenerator.process(body['filename'], body.get('sync', False))
+  return body

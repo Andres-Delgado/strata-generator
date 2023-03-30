@@ -10,32 +10,34 @@ class FileUtils:
   @classmethod
   def get_data_path(cls) -> pathlib.Path:
     path = pathlib.Path.joinpath(pathlib.Path.cwd(), 'data')
-
     if not path.is_dir():
       path.mkdir(parents=True, exist_ok=True)
-
     return path
 
   @classmethod
   def get_csv_path(cls) -> pathlib.Path:
     path = pathlib.Path.joinpath(cls.get_data_path(), 'csv')
-
     if not path.is_dir():
       path.mkdir(parents=True, exist_ok=True)
+    return path
 
+  @classmethod
+  def get_rosters_path(cls) -> pathlib.Path:
+    path = pathlib.Path.joinpath(cls.get_data_path(), 'rosters')
+    if not path.is_dir():
+      path.mkdir(parents=True, exist_ok=True)
     return path
 
   @classmethod
   def extract_roster(cls, filename: str) -> ElementTree:
     ext = '.rosz'
-    dataPath = cls.get_data_path()
+    rostersPath = cls.get_rosters_path()
+    filenameOG = filename.replace('_', ' ') + '.ros'
 
-    with zipfile.ZipFile(dataPath.joinpath(filename + ext), 'r') as file:
-      file.extractall(path=dataPath)
+    with zipfile.ZipFile(rostersPath.joinpath(filename + ext), 'r') as file:
+      file.extract(member=filenameOG, path=rostersPath)
 
-    # TODO: extract into a roster folder
-    # TODO: why is filename changing??
-    return etree.parse(dataPath.joinpath('New Roster' + '.ros'))
+    return etree.parse(rostersPath.joinpath(filenameOG))
 
   @classmethod
   def list_roster_files(cls) -> List[str]:
