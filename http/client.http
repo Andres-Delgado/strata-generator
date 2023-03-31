@@ -13,5 +13,5 @@ Content-Type: application/json
 
 {
   "sync": false,
-  "filename": "New_Roster"
+  "filename": "New_Roster.rosz"
 }

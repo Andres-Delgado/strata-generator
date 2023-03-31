@@ -30,14 +30,14 @@ class FileUtils:
 
   @classmethod
   def extract_roster(cls, filename: str) -> ElementTree:
-    ext = '.rosz'
     rostersPath = cls.get_rosters_path()
-    filenameOG = filename.replace('_', ' ') + '.ros'
+    filenameZipped = ''
 
-    with zipfile.ZipFile(rostersPath.joinpath(filename + ext), 'r') as file:
-      file.extract(member=filenameOG, path=rostersPath)
+    with zipfile.ZipFile(rostersPath.joinpath(filename), 'r') as file:
+      filenameZipped = file.namelist()[0]
+      file.extract(member=filenameZipped, path=rostersPath)
 
-    return etree.parse(rostersPath.joinpath(filenameOG))
+    return etree.parse(rostersPath.joinpath(filenameZipped))
 
   @classmethod
   def list_roster_files(cls) -> List[str]:
